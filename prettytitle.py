@@ -1,7 +1,7 @@
 import math
 import argparse
 
-def title_maker(title,length=119):
+def title_maker(title,length=119,caps=False):
 
     '''
 
@@ -12,7 +12,9 @@ def title_maker(title,length=119):
     title : string, required
             title name to prettify
     length : int, optional
-             set length of title box (pre-defined is 119)
+             set length of title box (default: 119)
+    caps : bool, optional
+            capitalize title (default: False)
 
     Returns
     -------
@@ -28,6 +30,8 @@ def title_maker(title,length=119):
 
     '''
 
+    if caps:
+        title = title.upper()
     placement = (len(title)+2)/2
     title_line = "#"*(math.floor(length/2)) + " {} " + "#"*(math.ceil(length/2))
     start_point = math.floor(placement)
@@ -38,15 +42,19 @@ def title_maker(title,length=119):
     else:
         print("\nCopy the below code into your script:\n")
         print("#"*length)
-        print(title_line.format(title.upper())[start_point:end_point])
+        print(title_line.format(title)[start_point:end_point])
         print("#"*length+"\n")
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('title', type=str)
-    parser.add_argument('--length', type=int, dest='length')
+    parser.add_argument('title', type=str, help="title name to prettify")
+    parser.add_argument('-l', '--length', type=int, dest='length', help="set length of title box (default: 119)")
+    parser.add_argument('-c', '--caps', action='store_true', help="capitalize title")
     args = parser.parse_args()
+
+    if args.caps:
+        args.title = args.title.upper()
 
     if args.length:
         title_maker(title=args.title,length=args.length)
