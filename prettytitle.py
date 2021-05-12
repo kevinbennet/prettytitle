@@ -1,4 +1,5 @@
 import math
+import argparse
 
 def title_maker(title,length=119):
 
@@ -32,7 +33,22 @@ def title_maker(title,length=119):
     start_point = math.floor(placement)
     end_point = -math.ceil(placement)
 
-    print("Copy the below code into your script:\n")
-    print("#"*length)
-    print(title_line.format(title.upper())[start_point:end_point])
-    print("#"*length)
+    if type(length)!=int:
+        print("length argument needs to be int type!")
+    else:
+        print("\nCopy the below code into your script:\n")
+        print("#"*length)
+        print(title_line.format(title.upper())[start_point:end_point])
+        print("#"*length+"\n")
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('title', type=str)
+    parser.add_argument('--length', type=int, dest='length')
+    args = parser.parse_args()
+
+    if args.length:
+        title_maker(title=args.title,length=args.length)
+    else:
+        title_maker(title=args.title)
